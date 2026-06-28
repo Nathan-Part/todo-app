@@ -12,4 +12,18 @@ class TaskController extends Controller
         $tasks = Task::all();
         return view('tasks.index', compact('tasks'));
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $task = Task::create([
+            'name' => $request->name,
+            'is_completed' => false,
+        ]);
+
+        return response()->json($task);
+    }
 }
