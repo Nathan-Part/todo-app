@@ -34,7 +34,7 @@ function addTask(e) {
             $('#list-task').append(`
                 <tr id="task-${response.id}">
                     <th>${response.id}</th>
-                    <td>${response.name}</td>
+                    <td class="task-name">${response.name}</td>
                     <td>
                         <span class="badge bg-warning task-status">Not Completed</span>
                     </td>
