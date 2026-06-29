@@ -14,14 +14,16 @@
         <input type="text" id="task-name" name="name" placeholder="task name" required>
         <button type="submit">Add Task</button>
     </form>
-    <ul>
+    <ul id="list-task">
         @foreach ($tasks as $task)
         <li id="task-{{ $task->id }}">
-            {{ $task->name }} <span class="task-status"> - {{ $task->is_completed ? 'Completed' : 'Not Completed' }}</span>
+            <span>{{ $task->name }}</span> - <span class="task-status"> {{ $task->is_completed ? 'Completed' : 'Not Completed' }}</span>
             <input type="checkbox" class="toggle-btn" data-id="{{ $task->id}}" {{ $task->is_completed ? 'checked' : ''}}>
+            <button class="delete-btn" data-id="{{ $task->id}}">Delete</button>
         </li>
         @endforeach
     </ul>
+    <span id="message-delete"></span>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="{{ asset('js/tasks.js') }}"></script>
 </body>

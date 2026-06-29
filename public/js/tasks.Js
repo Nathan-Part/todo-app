@@ -14,7 +14,14 @@ $('#add-task-form').on('submit', function (e) {
             name: $('#task-name').val(),
         },
         success: function (response) {
-            $('ul').append('<li>' + response.name + '- Not Completed</li>');
+            $('#list-task').append(
+                '<li id="task-'+ response.id + '">' + 
+                   '<span>' + response.name + '</span>' + ' - ' +
+                   '<span class="task-status">Not Completed </span>' +
+                   '<input type="checkbox" class="toggle-btn" data-id="' + response.id + '">' +
+                   '<button class="delete-btn" data-id="' + response.id + '">Delete</button>' +
+                   '</li>'
+            );
             $('#task-name').val('');
         }
     })
@@ -29,8 +36,18 @@ $(document).on('change', '.toggle-btn', function () {
         success: function (response) {
             $('#task-' + task_id + " .task-status").text(response.is_completed ? 'Completed' : 'Not Completed');
         },
-        error:function(error){
-            console.log(error);
-        }
+    });
+})
+
+$(document).on('click', '.delete-btn', function () {
+     var task_id = $(this).data('id');
+
+    $.ajax({
+        url: "/tasks/" + task_id,
+        method: 'DELETE',
+        success: function (response) {
+            $('#task-' + task_id).remove();
+            $('#message-delete').text(response.message);
+        },
     });
 })
