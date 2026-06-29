@@ -16,7 +16,10 @@
     </form>
     <ul>
         @foreach ($tasks as $task)
-        <li>{{ $task->name }} - {{ $task->is_completed ? 'Completed' : 'Not Completed' }}</li>
+        <li id="task-{{ $task->id }}">
+            {{ $task->name }} <span class="task-status"> - {{ $task->is_completed ? 'Completed' : 'Not Completed' }}</span>
+            <input type="checkbox" class="toggle-btn" data-id="{{ $task->id}}" {{ $task->is_completed ? 'checked' : ''}}>
+        </li>
         @endforeach
     </ul>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

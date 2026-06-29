@@ -26,4 +26,11 @@ class TaskController extends Controller
 
         return response()->json($task);
     }
+
+    public function toggle(Task $task)
+    {
+        $task->update(['is_completed' => !$task->is_completed]);
+
+        return response()->json($task);
+    }
 }
