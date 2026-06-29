@@ -113,10 +113,32 @@ function deleteTask(){
     });
 }
 
+function filterTasks() {
+    var filter = $(this).data('filter');
+     
+    $('.filter-btn').removeClass('active');
+    $(this).addClass('active');
+
+    $('#list-task tr').each(function(){
+        var status = $(this).find('.task-status').text().trim();
+        
+        if(filter === 'all') {
+            $(this).show();
+        } else if(filter === 'Completed' && status === 'Completed') {
+            $(this).show();
+        } else if(filter === 'Not Completed' && status === 'Not Completed') {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    })
+}
+
 $('#add-task-form').on('submit', addTask);
 $(document).on('click', '.toggle-btn', toggleTask);
 $(document).on('click', '.edit-btn', editTask);
 $(document).on('click', '.delete-btn', deleteTask);
+$(document).on('click', '.filter-btn', filterTasks);
 $(document).on('click', '#close-alert', function() {
     $('#message-delete').addClass('d-none');
 });

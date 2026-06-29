@@ -21,6 +21,11 @@
         </div>
 
         @if($tasks->isNotEmpty())
+            <div class="btn-group mb-3"> 
+                <button class="btn btn-outline-primary filter-btn active" data-filter="all">All</button>
+                <button class="btn btn-outline-success filter-btn" data-filter="Completed">Completed</button>
+                <button class="btn btn-outline-warning filter-btn" data-filter="Not Completed">Not Completed</button>
+            </div>
             <table class="table table-bordered table-hover table-striped mb-5">
                 <thead class="table-light">
                     <tr>
