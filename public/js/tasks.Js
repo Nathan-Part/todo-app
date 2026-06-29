@@ -40,6 +40,7 @@ function addTask(e) {
                     </td>
                     <td class="d-flex gap-2">
                         <button class="toggle-btn btn btn-warning btn-sm text-white" data-id="${response.id}">Done</button>
+                        <button class="edit-btn btn btn-info btn-sm text-white" data-id="${response.id}">Edit</button>
                         <button class="delete-btn btn btn-danger btn-sm" data-id="${response.id}">Delete</button>
                     </td>
                 </tr>
@@ -62,10 +63,39 @@ function toggleTask(){
             .addClass(response.is_completed ? 'bg-success' : 'bg-warning'); // add the new background color
 
             $('#task-' + task_id + " .toggle-btn").text(response.is_completed ? 'Undone' : 'Done'); // update the status text with the new status
+            $('#message-delete').addClass('d-none');
         },
     });
 }
 
+function editTask(){
+    var task_id = $(this).data('id'); // get the id of the task with the data-id attribute
+    var $td = $('#task-' + task_id + ' .task-name');
+    var currentName = $td.text().trim(); // get the current name on the table 
+
+    $td.html('<input type="text" class="form-control" value="' + currentName + '">'); // create the input field on table
+    $td.find('input').focus();
+
+    $td.find('input').on('blur keypress', function(e) {
+        if (e.type === 'blur' || e.which === 13) {
+            var newName = $(this).val().trim();
+
+            if(newName !== currentName) {
+                $.ajax({
+                    url: "/tasks/" + task_id,
+                    method: 'PUT',
+                    data: { name: newName },
+                    success: function (response) {
+                        $td.text(response.name);
+                    },
+                });
+            }
+            else {
+                $td.text(currentName);
+            }
+        }
+    });
+}
 function deleteTask(){
     var task_id = $(this).data('id');
 
@@ -78,11 +108,15 @@ function deleteTask(){
                 $('.table').remove();
                 $('div.container').append('<span class="alert alert-info d-flex justify-content-center w-50 mx-auto"> No tasks yet. </span>');
             }
-            $('#message-delete').removeClass('d-none').text(response.message); // display the success message
+            $('#message-delete').removeClass('d-none'); // display the success message
         },
     });
 }
 
 $('#add-task-form').on('submit', addTask);
 $(document).on('click', '.toggle-btn', toggleTask);
+$(document).on('click', '.edit-btn', editTask);
 $(document).on('click', '.delete-btn', deleteTask);
+$(document).on('click', '#close-alert', function() {
+    $('#message-delete').addClass('d-none');
+});

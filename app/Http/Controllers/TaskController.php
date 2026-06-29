@@ -34,10 +34,19 @@ class TaskController extends Controller
         return response()->json($task);
     }
 
+    public function update(Request $request, Task $task) // update task
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $task->update(['name' => $request->name]);
+
+        return response()->json($task);
+    }
+
     public function destroy(Task $task)
     {
         $task->delete();
-
-        return response()->json(['message' => 'Task deleted successfully']);
     }
 }
