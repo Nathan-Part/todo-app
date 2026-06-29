@@ -18,7 +18,12 @@ cd todo-app
 composer install
 
 ### 3. Configure environment
+#### Linux / Mac 
 cp .env.example .env
+
+#### Windows
+copy .env.exemple .env
+
 php artisan key:generate
 
 Edit the file ".env" with your database credentials :
